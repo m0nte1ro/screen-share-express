@@ -44,7 +44,7 @@ navigator.mediaDevices.getDisplayMedia({
         });
     });
 
-    socket.on("user-connected", (userId) => {
+    socket.on("user-connected", (userID) => {
         connectToNewUser(userId, stream);
     });
 });
@@ -68,24 +68,6 @@ const addVideoStream = (video, stream) => {
         videoGrid.append(video);
     });
 };
-
-let text = document.querySelector("#chat_message");
-let send = document.getElementById("send");
-let messages = document.querySelector(".messages");
-
-send.addEventListener("click", (e) => {
-  if (text.value.length !== 0) {
-    socket.emit("message", text.value);
-    text.value = "";
-  }
-});
-
-text.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && text.value.length !== 0) {
-    socket.emit("message", text.value);
-    text.value = "";
-  }
-});
 
 const inviteButton = document.querySelector("#inviteButton");
 const muteButton = document.querySelector("#muteButton");
