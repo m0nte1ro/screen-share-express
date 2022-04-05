@@ -1,9 +1,10 @@
-var fs = require("fs");
+var fs = require('fs');
 const https = require("https");
-const privateKey = fs.readFileSync('ssl/creche.ipmaia.key', 'utf8');
-const certificate = fs.readFileSync('ssl/creche.ipmaia.crt', 'utf8');
-const x = fs.readFileSync('.')
-var credentials = { key: privateKey, cert: certificate };
+
+var credentials = {
+    key: fs.readFileSync('ssl/creche.ipmaia.key'),
+    cert: fs.readFileSync('ssl/creche.ipmaia.crt')
+};
 
 const express = require("express");
 const app = express();
@@ -44,5 +45,3 @@ io.on("connection", (socket) => {
 });
 
 server.listen(process.env.PORT || 8100);
-
-
