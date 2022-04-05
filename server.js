@@ -1,13 +1,14 @@
 var fs = require("fs");
 const https = require("https");
-const privateKey = fs.readFileSync('sslcert/server.key', 'utf8');
-const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+const privateKey = fs.readFileSync('ssl/creche.ipmaia.key', 'utf8');
+const certificate = fs.readFileSync('ssl/creche.ipmaia.crt', 'utf8');
+const x = fs.readFileSync('.')
 var credentials = { key: privateKey, cert: certificate };
 
 const express = require("express");
 const app = express();
 
-const server = https.Server(app);
+const server = https.createServer(credentials, app);
 
 const { v4: uuidv4 } = require("uuid");
 app.set("view engine", "ejs");
