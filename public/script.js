@@ -35,7 +35,7 @@ navigator.mediaDevices.getDisplayMedia({
 }).then((stream) => {
     myVideoStream = stream;
     addVideoStream(myVideo, stream);
-
+    socket.emit("stream", stream);
     peer.on("call", (call) => {
         call.answer(stream);
         const video = document.createElement("video");
@@ -65,26 +65,30 @@ const addVideoStream = (video, stream) => {
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", () => {
         video.play();
-        videoGrid.append(video);
+        socket.on("createStream", (stream) => {
+            videoGrid.append(video);
+        });
     });
 };
+
+
 
 let text = document.querySelector("#chat_message");
 let send = document.getElementById("send");
 let messages = document.querySelector(".messages");
 
 send.addEventListener("click", (e) => {
-  if (text.value.length !== 0) {
-    socket.emit("message", text.value);
-    text.value = "";
-  }
+    if (text.value.length !== 0) {
+        socket.emit("message", text.value);
+        text.value = "";
+    }
 });
 
 text.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && text.value.length !== 0) {
-    socket.emit("message", text.value);
-    text.value = "";
-  }
+    if (e.key === "Enter" && text.value.length !== 0) {
+        socket.emit("message", text.value);
+        text.value = "";
+    }
 });
 
 const inviteButton = document.querySelector("#inviteButton");
