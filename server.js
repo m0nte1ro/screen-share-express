@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
         });
         socket.on("stream", (stream) => {
             io.to(roomId).emit("createStream", stream);
-        })
+        });
     });
 });
 

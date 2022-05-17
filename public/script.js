@@ -53,7 +53,10 @@ const connectToNewUser = (userId, stream) => {
     const call = peer.call(userId, stream);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
-        addVideoStream(video, userVideoStream);
+        socket.on("createMessage", (message, userName) => {
+            addVideoStream(video, userVideoStream);
+        });
+
     });
 };
 
@@ -65,9 +68,7 @@ const addVideoStream = (video, stream) => {
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", () => {
         video.play();
-        socket.on("createStream", (stream) => {
-            videoGrid.append(video);
-        });
+        videoGrid.append(video);
     });
 };
 
